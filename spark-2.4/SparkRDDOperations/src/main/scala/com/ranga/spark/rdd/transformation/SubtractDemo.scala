@@ -17,7 +17,7 @@ object SubtractDemo extends App {
     val namesSubtractRDD = names1RDD.subtract(names2RDD)
 
     val subtractList = namesSubtractRDD.collect().toList
-    println("Subtracted Results "+subtractList)
+    println("subtractList "+subtractList)
 
     context.stop()
 }

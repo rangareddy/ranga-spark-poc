@@ -10,8 +10,7 @@ object GroupByKeyDemo extends App {
     val studentMarks = Seq(("ranga", 55), ("ranga", 56), ("raja", 57), ("nishanth", 58), ("nishanth", 59), ("vinod", 54), ("ranga", 80), ("nishanth", 84), ("vinod", 52))
     val studentMarksRDD = context.parallelize(studentMarks)
 
-    val studentsMarksGroupByKeyRDD = studentMarksRDD.groupByKey()
-    val groupedStudentMarksList = studentsMarksGroupByKeyRDD.sortByKey().collect().toList
-    println("Grouped Student marks "+groupedStudentMarksList)
+    val groupByKeyList = studentMarksRDD.groupByKey().collect().toList
+    println("groupByKeyList  "+groupByKeyList)
     context.stop()
 }

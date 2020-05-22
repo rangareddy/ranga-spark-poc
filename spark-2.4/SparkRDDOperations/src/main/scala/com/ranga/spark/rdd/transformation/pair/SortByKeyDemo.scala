@@ -10,7 +10,7 @@ object SortByKeyDemo extends App {
     val studentMarks = Seq(("ranga", 55), ("ranga", 56), ("raja", 57), ("nishanth", 58), ("nishanth", 59), ("vinod", 54), ("ranga", 80), ("nishanth", 84), ("vinod", 52))
     val studentMarksRDD = context.parallelize(studentMarks)
 
-    val sortedStudentMarksList = studentMarksRDD.sortByKey().collect().toList
-    println("Sorted Student marks "+sortedStudentMarksList)
+    val sortedList = studentMarksRDD.sortByKey().collect().toList
+    println("sortedList "+sortedList)
     context.stop()
 }

@@ -24,10 +24,9 @@ object AggregateByKeyDemo extends App {
     val sumOfMarks = (marks1: Int, marks2: Int) =>  { println("marks1: "+marks1 +", marks2: "+marks2); marks1 + marks2}
     val sumOfMarksPartition = (p1: Int, p2: Int) => { println("p1: "+p1 +", p2: "+p2); p1 + p2}
 
-    println(s"Partitions count ${studentMarksRDD.getNumPartitions}")
     val studentsMarksAggregateByKeyRDD = studentMarksRDD.aggregateByKey (initialCount)( sumOfMarks, sumOfMarksPartition)
-    val aggregateStudentMarksList = studentsMarksAggregateByKeyRDD.sortByKey().collect().toList
+    val aggregateByKeyList = studentsMarksAggregateByKeyRDD.sortByKey().collect().toList
 
-    println("Aggregate Student marks "+aggregateStudentMarksList)
+    println(s"aggregateByKeyList $aggregateByKeyList")
     context.stop()
 }

@@ -1,16 +1,18 @@
 package com.ranga.spark.event;/* rangareddy.avula created on 30/05/20 */
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
+import lombok.*;
 
-class EventInfo implements Serializable  {
+import java.io.Serializable;
+import java.util.*;
+
+public @Data  class EventInfo implements Serializable  {
 
     private String applicationName;
     private String sparkVersion;
     private Map<String, String> jvmInformation;
     private Map<String, String> sparkProperties;
     private Map<String, String> classpathEntries;
-    private List<Map<String, String>> eventMessages;
+    private List<Map<String, String>> eventMessages = new ArrayList<>();
+    private Set<String> hosts = new HashSet<>();
 
 }

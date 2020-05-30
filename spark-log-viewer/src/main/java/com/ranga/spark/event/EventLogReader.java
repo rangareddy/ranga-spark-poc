@@ -19,15 +19,31 @@ public class EventLogReader {
         String applicationName = filePath.substring(filePath.lastIndexOf("/")+1);
         Map<String, Integer> hostCount = new HashMap<>();
         List<Map<String, String>> eventMessages = new ArrayList<>();
+        Set<String> hosts = new HashSet<>();
+
+        EventInfo eventInfo = new EventInfo();
+
         String sparkVersion = "";
-        for(int i=0; i < lines.size()-1; i++) {
+        Set<String> events = new TreeSet<>();
+        for(int i=0; i < lines.size(); i++) {
             String line = lines.get(i);
             Map<String, Object> valueMap = new ObjectMapper().readValue(line, Map.class);
             String event = (String) valueMap.get("Event");
+            events.add(event);
+
             if("SparkListenerLogStart".equals(event)) {
                 sparkVersion = (String) valueMap.get("Spark Version");
+                eventInfo.setSparkVersion(sparkVersion);
             } else if("SparkListenerEnvironmentUpdate".equals(event)) {
-                System.out.println(valueMap);
+                Map<String,String> jvmInformation = getMapData(valueMap, "JVM Information");
+                Map<String,String> sparkProperties = getMapData(valueMap, "Spark Properties");
+                Map<String,String> classPathProperties = getMapData(valueMap, "Classpath Entries");
+                Map<String,String> systemProperties = getMapData(valueMap, "System Properties");
+                jvmInformation.putAll(systemProperties);
+
+                eventInfo.setClasspathEntries(classPathProperties);
+                eventInfo.setJvmInformation(jvmInformation);
+                eventInfo.setSparkProperties(sparkProperties);
             }
 
             if(line.contains("Exception")) {
@@ -72,6 +88,7 @@ public class EventLogReader {
                     eventMessages.add(map);
 
                     String host = taskInfoMap.get("Host");
+                    hosts.add(host);
 
                     Integer count = hostCount.get(host);
                     if(count == null) {
@@ -86,10 +103,14 @@ public class EventLogReader {
                 }
             }
         }
-
-        GenerateEventMessageHTML.generateHTML(filePath, applicationName, eventMessages);
+        eventInfo.setHosts(hosts);
+        System.out.println(eventInfo);
+        System.out.println("\n\nHosts:\n"+events);
+        //GenerateEventMessageHTML.generateHTML(filePath, applicationName, eventMessages);
         System.out.println(hostCount);
     }
 
-
+    private static Map<String, String> getMapData(Map<String, Object> valueMap, String key) {
+        return (Map<String, String>) valueMap.get(key);
+    }
 }

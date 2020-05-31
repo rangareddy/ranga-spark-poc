@@ -1,5 +1,6 @@
 package com.ranga.spark.event;/* rangareddy.avula created on 11/05/20 */
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
@@ -7,10 +8,7 @@ import freemarker.template.TemplateExceptionHandler;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class GenerateEventMessageHTML {
 
@@ -24,11 +22,13 @@ public class GenerateEventMessageHTML {
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
     }
 
-    public static void generateHTML(String outputFile, String applicationName, List<Map<String, String>> eventMessages) {
+    public static void generateHTML(String outputFile, EventInfo eventInfo) throws Exception {
 
+        String applicationName = (String) eventInfo.getAppProperties().get("App Name");
         Map<String, Object> input = new HashMap<>();
         input.put("title", ""+applicationName);
-        input.put("eventMessages", eventMessages);
+        input.put("eventMessages", new ArrayList<>());
+        input.put("eventInfo", new ObjectMapper().writeValueAsString(eventInfo));
 
         try {
 

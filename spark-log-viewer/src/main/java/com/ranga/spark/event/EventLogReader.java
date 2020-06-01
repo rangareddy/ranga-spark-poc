@@ -1,70 +1,60 @@
 package com.ranga.spark.event;/* rangareddy.avula created on 11/05/20 */
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.spark.scheduler.StageInfo;
-
-import java.io.File;
-import java.nio.file.Files;
-import java.util.*;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class EventLogReader {
 
     public static void main(String[] args) throws Exception {
-        String filePath = "/Users/rangareddy.avula/work/spark_cases/678370/application_1586761957017_74880_1";
+        //String filePath = "/Users/rangareddy.avula/work/spark_cases/678370/application_1586761957017_74880_1";
+        String filePath = "./src/main/resources/app-20170708141026-0013";
         generateEventLog(filePath);
     }
 
     private static void generateEventLog(String filePath) throws Exception {
-        List<String> lines = Files.readAllLines(new File(filePath).toPath());
-        Map<String, Integer> hostCount = new HashMap<>();
-        List<Map<String, String>> eventMessages = new ArrayList<>();
-        Set<String> hosts = new HashSet<>();
-
-        EventInfo eventInfo = new EventInfo();
-        Set<String> events = new TreeSet<>();
+        EventInfo eventInfo = new EventInfoBuilder(filePath).buildEventInfo();
+        /*Set<String> events = new TreeSet<>();
         List<String> includeProps = Arrays.asList("Scala Version","Java Version","Java Home", "hdp.version", "java.class.version", "java.home", "os.name",
                 "os.version", "user.country", "user.home", "user.timezone", "user.name", "user.dir" );
 
-        for (int i = 0; i < lines.size(); i++) {
+        for (int i = 0; i < lines.size(); i++)) {
             String line = lines.get(i);
             Map<String, Object> valueMap = new ObjectMapper().readValue(line, Map.class);
             String event = (String) valueMap.remove("Event");
             events.add(event);
 
-            if ("SparkListenerLogStart".equals(event)) {
+            if ("SparkListenerLogStart".equals(event))) {
                 eventInfo.setSparkVersion((String) valueMap.get("Spark Version"));
-            } else if ("SparkListenerEnvironmentUpdate".equals(event)) {
+            } else if ("SparkListenerEnvironmentUpdate".equals(event))) {
                 Map<String, String> jvmInformation = getMapData(valueMap, "JVM Information");
                 Map<String, String> sparkProperties = getMapData(valueMap, "Spark Properties");
                 Map<String, String> classPathProperties = getMapData(valueMap, "Classpath Entries");
                 Map<String, String> systemProperties = getMapData(valueMap, "System Properties");
 
-                for(String key : systemProperties.keySet()) {
-                    if(includeProps.contains(key)) {
+                for(String key : systemProperties.keySet())) {
+                    if(includeProps.contains(key))) {
                         jvmInformation.put(key, systemProperties.get(key));
                     }
                 }
-
-
-                // eventInfo.setClasspathEntries(classPathProperties);
+                eventInfo.setClasspathEntries(classPathProperties);
                 eventInfo.setJvmInformation(jvmInformation);
                 eventInfo.setSparkProperties(sparkProperties);
-            } else if ("SparkListenerApplicationEnd".equals(event) || "SparkListenerApplicationStart".equals(event)) {
-                if ("SparkListenerApplicationStart".equals(event)) {
+            } else if ("SparkListenerApplicationEnd".equals(event) || "SparkListenerApplicationStart".equals(event))) {
+                if ("SparkListenerApplicationStart".equals(event))) {
                     valueMap.put("StartTime", valueMap.remove("Timestamp"));
                     valueMap.remove("Driver Logs");
                 } else {
                     valueMap.put("EndTime", valueMap.remove("Timestamp"));
                 }
                 eventInfo.getAppProperties().putAll(valueMap);
-            } else if ("SparkListenerJobStart".equals(event) || "SparkListenerJobEnd".equals(event)) {
+            } else if ("SparkListenerJobStart".equals(event) || "SparkListenerJobEnd".equals(event))) {
                 Integer jobId = (Integer) valueMap.remove("Job ID");
                 JobInfo jobInfo = eventInfo.getJobInfos().get(jobId);
-                if ("SparkListenerJobStart".equals(event)) {
+                if ("SparkListenerJobStart".equals(event))) {
                     long time = (Long) valueMap.remove("Submission Time");
                     List<StageInfo> stageInfos = (List<StageInfo>) valueMap.remove("Stage Infos");
                     LinkedHashMap properties = (LinkedHashMap) valueMap.remove("Properties");
-                    if (jobInfo == null) {
+                    if (jobInfo == null)) {
                         jobInfo = new JobInfo(jobId, time, 0, stageInfos, properties);
                     }
                 } else {
@@ -74,8 +64,8 @@ public class EventLogReader {
                 // eventInfo.getJobInfos().put(jobId, jobInfo);
             }
 
-            if (line.contains("Exception")) {
-                if (valueMap.containsKey("Task End Reason")) {
+            if (line.contains("Exception"))) {
+                if (valueMap.containsKey("Task End Reason"))) {
 
                     Map<String, String> taskEndReasonMap = (Map<String, String>) valueMap.get("Task End Reason");
 
@@ -119,7 +109,7 @@ public class EventLogReader {
                     hosts.add(host);
 
                     Integer count = hostCount.get(host);
-                    if (count == null) {
+                    if (count == null)) {
                         count = 0;
                     }
                     count++;
@@ -133,8 +123,8 @@ public class EventLogReader {
         }
         eventInfo.setHosts(hosts);
         //System.out.println(eventInfo);
-        System.out.println("\n\nEvents:\n" + events);
-        GenerateEventMessageHTML.generateHTML(filePath, eventInfo);
+        System.out.println("\n\nEvents:\n" + events);*/
+        // GenerateEventMessageHTML.generateHTML(filePath, eventInfo);
     }
 
     private static Map<String, String> getMapData(Map<String, Object> valueMap, String key) {

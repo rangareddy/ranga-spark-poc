@@ -94,17 +94,17 @@
    <!-- Classic tabs -->
 
    <script>
-   $(document).ready(function() {
+   $(document).ready(function()) {
 
        var eventInfo = jQuery.parseJSON(JSON.stringify(${eventInfo}));
        $("#appVersion").html(eventInfo.sparkVersion);
 
-       function displayProperties(appProperties, tableId) {
+       function displayProperties(appProperties, tableId)) {
            var content = "<table class='table table-hover table-bordered'>";
            content += "<thead class='thead-dark'><tr><th>Property Name</th><th>Property Value</th></tr></thead>";
 
-          $.each(appProperties, function(key, value) {
-             if(key.indexOf('Time') !== -1) {
+          $.each(appProperties, function(key, value)) {
+             if(key.indexOf('Time') !== -1)) {
                 value = new Date(value).toUTCString(); ;
              }
              content += '<tr scope="row"><td>' + key + '</td><td>'+ value +'</td></tr>';
@@ -123,7 +123,7 @@
 
        $('#eventMessages').DataTable();
 
-       $(function () {
+       $(function ()) {
          $('#myTab li:first-child a').tab('show')
        })
 

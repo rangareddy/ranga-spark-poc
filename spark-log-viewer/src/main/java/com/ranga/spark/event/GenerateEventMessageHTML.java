@@ -8,7 +8,10 @@ import freemarker.template.TemplateExceptionHandler;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 public class GenerateEventMessageHTML {
 
@@ -26,7 +29,7 @@ public class GenerateEventMessageHTML {
 
         String applicationName = (String) eventInfo.getAppProperties().get("App Name");
         Map<String, Object> input = new HashMap<>();
-        input.put("title", ""+applicationName);
+        input.put("title", "" + applicationName);
         input.put("eventMessages", new ArrayList<>());
         input.put("eventInfo", new ObjectMapper().writeValueAsString(eventInfo));
 
@@ -39,7 +42,7 @@ public class GenerateEventMessageHTML {
 
             // For the sake of example, also write output into a file:
             Template template = cfg.getTemplate("event_log_exceptions.ftl");
-            String htmlFileName = outputFile+".html";
+            String htmlFileName = outputFile + ".html";
             System.out.println(htmlFileName);
 
             Writer fileWriter = new FileWriter(new File(htmlFileName));
@@ -47,11 +50,10 @@ public class GenerateEventMessageHTML {
                 template.process(input, fileWriter);
             } catch (Exception ex) {
                 ex.printStackTrace();
-            }
-            finally {
+            } finally {
                 fileWriter.close();
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

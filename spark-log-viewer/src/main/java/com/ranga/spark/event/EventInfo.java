@@ -1,11 +1,12 @@
 package com.ranga.spark.event;/* rangareddy.avula created on 30/05/20 */
 
-import lombok.*;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.*;
 
-public @Data  class EventInfo implements Serializable  {
+public @Data
+class EventInfo implements Serializable {
 
     private String sparkVersion;
     private Map<String, Object> appProperties = new HashMap<>();

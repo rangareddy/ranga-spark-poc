@@ -12,7 +12,8 @@ public class EventLogReader {
     }
 
     private static void generateEventLog(String filePath) throws Exception {
-        EventInfo eventInfo = new EventInfoBuilder(filePath).buildEventInfo();
+        EventInfo eventInfo = new EventInfoBuilder(filePath).getEventInfo();
+
         /*Set<String> events = new TreeSet<>();
         List<String> includeProps = Arrays.asList("Scala Version","Java Version","Java Home", "hdp.version", "java.class.version", "java.home", "os.name",
                 "os.version", "user.country", "user.home", "user.timezone", "user.name", "user.dir" );
@@ -124,7 +125,7 @@ public class EventLogReader {
         eventInfo.setHosts(hosts);
         //System.out.println(eventInfo);
         System.out.println("\n\nEvents:\n" + events);*/
-        // GenerateEventMessageHTML.generateHTML(filePath, eventInfo);
+        //GenerateEventMessageHTML.generateHTML(filePath, eventInfo);
     }
 
     private static Map<String, String> getMapData(Map<String, Object> valueMap, String key) {

@@ -1,7 +1,6 @@
 package com.ranga.spark.event;/* rangareddy.avula created on 31/05/20 */
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.spark.storage.BlockManager;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -17,8 +16,12 @@ public class EventInfoBuilder {
         this.filePath = filePath;
     }
 
+    private static Map<String, String> getMapData(Map<String, Object> valueMap, String key) {
+        return (Map<String, String>) valueMap.get(key);
+    }
+
     public EventInfo getEventInfo() {
-        if(eventInfo == null) {
+        if (eventInfo == null) {
             buildEventInfo();
         }
         return eventInfo;
@@ -47,7 +50,7 @@ public class EventInfoBuilder {
                 } else if (eventType.equals("SparkListenerApplicationStart")) {
                     buildSparkListenerApplicationStart(jsonDataMap);
                 } else if (eventType.equals("SparkListenerApplicationEnd")) {
-                    buildSparkListenerJobEnd(jsonDataMap);
+                  buildSparkListenerApplicationEnd(jsonDataMap);
                 } else if (eventType.equals("SparkListenerJobStart")) {
                     buildSparkListenerJobStart(eventLogMessage, jsonDataMap);
                 } else if (eventType.equals("SparkListenerStageSubmitted")) {
@@ -67,7 +70,7 @@ public class EventInfoBuilder {
                 } else if (eventType.equals("SparkListenerJobEnd")) {
                     buildSparkListenerJobEnd(jsonDataMap);
                 } else {
-                  //  System.out.println("WARNING { unknown event type) " + (eventType) + " }");
+                    //  System.out.println("WARNING { unknown event type) " + (eventType) + " }");
                 }
             }
             eventInfo.setHosts(hosts);
@@ -76,8 +79,14 @@ public class EventInfoBuilder {
         }
     }
 
+    private void buildSparkListenerApplicationEnd(Map<String, Object> jsonDataMap) {
+        eventInfo.getAppProperties().put("EndTime", jsonDataMap.remove("Timestamp"));
+    }
+
     private void buildSparkListenerApplicationStart(Map<String, Object> jsonDataMap) {
-        System.out.println(jsonDataMap);
+        Map<String, Object> appProperties = eventInfo.getAppProperties();
+        appProperties.put("StartTime", jsonDataMap.remove("Timestamp"));
+        appProperties.putAll(jsonDataMap);
     }
 
     private void buildSparkListenerBlockManagerAdded(Map<String, Object> jsonDataMap) {
@@ -88,9 +97,7 @@ public class EventInfoBuilder {
 
     }
 
-    private void buildSparkListenerExecutorAdded(Map<String, Object> jsonDataMap) {
 
-    }
 
     private void buildSparkListenerStageSubmitted(Map<String, Object> jsonDataMap) {
 
@@ -100,8 +107,12 @@ public class EventInfoBuilder {
 
     }
 
-    private void buildSparkListenerExecutorRemoved(Map<String, Object> jsonDataMap) {
+    private void buildSparkListenerExecutorAdded(Map<String, Object> jsonDataMap) {
+        //System.out.println("buildSparkListenerExecutorAdded "+jsonDataMap);
+    }
 
+    private void buildSparkListenerExecutorRemoved(Map<String, Object> jsonDataMap) {
+       // System.out.println("buildSparkListenerExecutorRemoved "+jsonDataMap);
     }
 
     private void buildSparkListenerBlockManagerRemoved(Map<String, Object> jsonDataMap) {
@@ -113,33 +124,35 @@ public class EventInfoBuilder {
     }
 
     private void buildSparkListenerJobStart(String jobInfoStr, Map<String, Object> jsonData) {
-        //System.out.println(jsonData);
         try {
-            System.out.println(jsonData.keySet());
             JobInfo jobInfo = OBJECT_MAPPER.readValue(jobInfoStr, JobInfo.class);
-            System.out.println(jobInfo);
+            if(jobInfo.getJobId() == 2) {
+                System.out.println(jobInfoStr);
+            }
+            eventInfo.getJobInfos().put(jobInfo.getJobId(), jobInfo);
         } catch (Exception ex) {
             ex.printStackTrace();
-            System.out.println(jsonData.keySet());
         }
 
 
-
-       // JobInfo jobInfo = new JobInfo();
-
-        // jsonData.put("StartTime", jsonData.remove("Timestamp"));
-        // jsonData.remove("Driver Logs");
-        // eventInfo.getAppProperties().putAll(jsonData);
     }
 
     private void buildSparkListenerJobEnd(Map<String, Object> jsonData) {
-        System.out.println(jsonData);
-       // jsonData.put("EndTime", jsonData.remove("Timestamp"));
-        //eventInfo.getAppProperties().putAll(jsonData);
-    }
-
-    private static Map<String, String> getMapData(Map<String, Object> valueMap, String key) {
-        return  (Map<String, String>) valueMap.get(key);
+        try {
+            int jobId = (Integer) jsonData.get("Job ID");
+            long completionTime = (Long) jsonData.get("Completion Time");
+            Map<String, String> jobResult = (Map) jsonData.get("Job Result");
+            JobInfo jobInfo = eventInfo.getJobInfos().get(jobId);
+            jobInfo.setEndTime(completionTime);
+            String result = jobResult.get("Result");
+            if(result == null) {
+                result = "UnKnown";
+            }
+            jobInfo.setJobResult(result);
+            eventInfo.getJobInfos().put(jobInfo.getJobId(), jobInfo);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void buildSparkListenerLogStart(Map<String, Object> jsonData) {
@@ -163,13 +176,6 @@ public class EventInfoBuilder {
         eventInfo.setClasspathEntries(classPathProperties);
         eventInfo.setJvmInformation(jvmInformation);
         eventInfo.setSparkProperties(sparkProperties);
-
-        /*self.parsed_data["java_version"] = data["JVM Information"]["Java Version"]
-        self.parsed_data["app_name"] = data["Spark Properties"]["spark.app.name"]
-        self.parsed_data["app_id"] = data["Spark Properties"]["spark.app.id"]
-            #self.parsed_data["driver_memory"] = data["Spark Properties"]["spark.driver.memory"]
-        self.parsed_data["executor_memory"] = data["Spark Properties"]["spark.executor.memory"]
-        self.parsed_data["commandline"] = data["System Properties"]["sun.java.command"] */
 
     }
 }

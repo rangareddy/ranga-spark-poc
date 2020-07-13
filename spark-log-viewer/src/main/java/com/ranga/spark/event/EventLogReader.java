@@ -1,5 +1,6 @@
 package com.ranga.spark.event;/* rangareddy.avula created on 11/05/20 */
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -125,11 +126,8 @@ public class EventLogReader {
         eventInfo.setHosts(hosts);
         //System.out.println(eventInfo);
         System.out.println("\n\nEvents:\n" + events);*/
-        //GenerateEventMessageHTML.generateHTML(filePath, eventInfo);
-    }
-
-    private static Map<String, String> getMapData(Map<String, Object> valueMap, String key) {
-        Map<String, String> map = (Map<String, String>) valueMap.get(key);
-        return new TreeMap(map);
+        eventInfo.setJobInfoCollection(eventInfo.getJobInfos().values());
+        eventInfo.setJobInfos(Collections.EMPTY_MAP);
+        GenerateEventMessageHTML.generateHTML(filePath, eventInfo);
     }
 }

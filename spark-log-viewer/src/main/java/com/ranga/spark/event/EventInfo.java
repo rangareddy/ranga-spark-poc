@@ -16,4 +16,6 @@ class EventInfo implements Serializable {
     private List<Map<String, String>> eventMessages = new ArrayList<>();
     private Set<String> hosts = new HashSet<>();
     private Map<Integer, JobInfo> jobInfos = new TreeMap<>();
+    private Collection<JobInfo> jobInfoCollection = Collections.emptyList();
+
 }

@@ -11,6 +11,7 @@ import java.util.List;
 /* Ranga Reddy created on 13/07/20 */
 
 class SparkParquetReadAndWriteJavaExample implements Serializable {
+    public static String filePath= "employee_data";
 
     public static void main(String[] args) {
         String appName = SparkParquetReadAndWriteJavaExample.class.getSimpleName().replace("$", "");
@@ -26,12 +27,12 @@ class SparkParquetReadAndWriteJavaExample implements Serializable {
         DataFrame df = getDataFrame(sqlContext);
 
         // Write file to parquet
-        df.write().mode("overwrite").parquet("Employees.parquet");
+        df.write().mode("overwrite").parquet(filePath);
     }
 
     public static void readParquet(SQLContext sqlContext) {
         // Read parquet file
-        DataFrame dataFrame = sqlContext.read().parquet("Employees.parquet");
+        DataFrame dataFrame = sqlContext.read().parquet(filePath);
         display(dataFrame);
     }
 

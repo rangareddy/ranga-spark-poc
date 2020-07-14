@@ -16,6 +16,6 @@ dependency-reduced-pom.xml
 
 # Maven
 log/
+*.log
 target/
-
-Employees.parquet
+*_data

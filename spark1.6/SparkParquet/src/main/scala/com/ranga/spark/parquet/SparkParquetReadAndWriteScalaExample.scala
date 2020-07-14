@@ -7,9 +7,11 @@ import org.apache.spark.sql._
 object SparkParquetReadAndWriteScalaExample extends App {
 
     val appName = this.getClass.getSimpleName().replace("$", "");
+    val filePath = "employee_data"
     val conf = new SparkConf().setIfMissing("spark.master", "local[3]").setAppName(appName);
     val sc = new SparkContext(conf);
     val sqlContext = new SQLContext(sc);
+
     writeParquet(sqlContext);
     readParquet(sqlContext);
 
@@ -18,12 +20,12 @@ object SparkParquetReadAndWriteScalaExample extends App {
         val df = getDataFrame(sqlContext)
 
         // Write file to parquet
-        df.write.mode("overwrite").parquet("Employees.parquet");
+        df.write.mode("overwrite").parquet(filePath);
     }
 
     def readParquet(sqlContext:SQLContext):Unit = {
         // Read parquet file
-        val dataFrame = sqlContext.read.parquet("Employees.parquet")
+        val dataFrame = sqlContext.read.parquet(filePath)
         display(dataFrame)
     }
 

@@ -1,0 +1,6 @@
+/target
+/.idea
+*.iml
+/log
+/spark-warehouse
+dependency-reduced-pom.xml

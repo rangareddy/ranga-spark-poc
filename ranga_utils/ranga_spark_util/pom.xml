@@ -2,11 +2,10 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ranga.spark</groupId>
-    <artifactId>SparkWordCount</artifactId>
+    <groupId>com.ranga.spark.util</groupId>
+    <artifactId>ranga_spark_util</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -14,38 +13,22 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
         <scala-maven-plugin.version>4.3.1</scala-maven-plugin.version>
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-        <spark.version>2.4.5</spark.version>
-        <scala.version>2.12</scala.version>
     </properties>
 
     <dependencies>
 
         <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-sql_${scala.version}</artifactId>
-            <version>${spark.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-streaming_${scala.version}</artifactId>
-            <version>${spark.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-sql-kafka-0-10_${scala.version}</artifactId>
-            <version>${spark.version}</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.11.2</version>
         </dependency>
 
     </dependencies>
 
     <build>
-
+        <!-- Java Plugin -->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -56,32 +39,29 @@
                     <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
-
+            
             <plugin>
-                <groupId>net.alchim31.maven</groupId>
-                <artifactId>scala-maven-plugin</artifactId>
-                <version>${scala-maven-plugin.version}</version>
-                <!--<executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
                     <execution>
-                        <id>scala-compile-first</id>
-                        <phase>process-resources</phase>
+                        <phase>package</phase>
                         <goals>
-                            <goal>add-source</goal>
-                            <goal>compile</goal>
+                            <goal>shade</goal>
                         </goals>
+                        <configuration>
+                            <artifactSet>
+                                <excludes>
+                                    <exclude>log4j:log4j:jar:</exclude>
+                                </excludes>
+                            </artifactSet>
+                        </configuration>
                     </execution>
-                    <execution>
-                        <id>scala-test-compile</id>
-                        <phase>process-test-resources</phase>
-                        <goals>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>-->
+                </executions>
             </plugin>
-
         </plugins>
-    </build>
 
+    </build>
 
 </project>

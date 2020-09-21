@@ -7,6 +7,7 @@
 
     <groupId>com.ranga.spark</groupId>
     <artifactId>ranga-spark-poc</artifactId>
+<<<<<<< HEAD
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Spark Apps Parent POM</name>
@@ -44,6 +45,18 @@
         <scala-binary-version>${scala.binary12.version}</scala-binary-version>
         <junit.version>4.12</junit.version>
 
+=======
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
+        <scala-maven-plugin.version>4.3.1</scala-maven-plugin.version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+>>>>>>> f26f1d55887d78f322288b06faead759ff5843da
     </properties>
 
     <modules>
@@ -53,6 +66,7 @@
         <module>spark-3.0</module>
     </modules>
 
+<<<<<<< HEAD
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -66,21 +80,34 @@
         <plugins>
 
             <!-- Maven Compiler Plugin -->
+=======
+    <build>
+        <plugins>
+>>>>>>> f26f1d55887d78f322288b06faead759ff5843da
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compiler.plugin.version}</version>
                 <configuration>
+<<<<<<< HEAD
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
 
             <!-- Scala Maven Plugin -->
+=======
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+
+>>>>>>> f26f1d55887d78f322288b06faead759ff5843da
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
                 <version>${scala-maven-plugin.version}</version>
+<<<<<<< HEAD
                 <executions>
                     <execution>
                         <goals>
@@ -93,6 +120,8 @@
                     <scalaVersion>${scala-version}</scalaVersion>
                     <scalaCompatVersion>${scala-binary-version}</scalaCompatVersion>
                 </configuration>
+=======
+>>>>>>> f26f1d55887d78f322288b06faead759ff5843da
             </plugin>
 
         </plugins>

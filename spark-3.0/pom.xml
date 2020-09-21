@@ -7,11 +7,13 @@
 
     <parent>
         <groupId>com.ranga.spark</groupId>
-        <artifactId>spark-2.4</artifactId>
+        <artifactId>ranga-spark-poc</artifactId>
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>SparkRDDOperations</artifactId>
+    <artifactId>spark-3.0</artifactId>
+    <packaging>pom</packaging>
+    <name>Spark 3.0 Apps Parent POM</name>
 
 </project>

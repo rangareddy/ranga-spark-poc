@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ranga.spark</groupId>
+    <artifactId>ranga-spark-poc</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Spark Apps Parent POM</name>
+
+    <!-- root project properties -->
+    <properties>
+        <!-- Maven compiler plugin version-->
+        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+
+        <!-- Scala plugin version-->
+        <scala-maven-plugin.version>4.3.1</scala-maven-plugin.version>
+
+        <!-- Java version -->
+        <java.version>1.8</java.version>
+
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.targetEncoding>UTF-8</project.build.targetEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <spark_1_version>1.6.3</spark_1_version>
+        <spark_2_3_version>2.3.2</spark_2_3_version>
+        <spark_2_4_version>2.4.5</spark_2_4_version>
+        <spark_2_version>${spark_2_4_version}</spark_2_version>
+        <spark_3_version>3.1.0</spark_3_version>
+
+        <scala_11_version>2.11.12</scala_11_version>
+        <scala_12_version>2.12.10</scala_12_version>
+        <scala-version>${scala_12_version}</scala-version>
+
+        <scala.binary11.version>2.11</scala.binary11.version>
+        <scala.binary12.version>2.12</scala.binary12.version>
+        <scala-binary-version>${scala.binary12.version}</scala-binary-version>
+        <junit.version>4.12</junit.version>
+
+    </properties>
+
+    <modules>
+        <module>spark-1.6</module>
+        <module>spark-2.3</module>
+        <module>spark-2.4</module>
+        <module>spark-3.0</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!-- Maven Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+
+            <!-- Scala Maven Plugin -->
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>${scala-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <scalaVersion>${scala-version}</scalaVersion>
+                    <scalaCompatVersion>${scala-binary-version}</scalaCompatVersion>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

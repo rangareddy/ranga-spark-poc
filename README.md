@@ -1,2 +1,1 @@
-# ranga-spark-poc
-Spark Demos
+# Ranga Spark Experiments

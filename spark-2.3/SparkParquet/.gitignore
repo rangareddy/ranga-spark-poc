@@ -1,3 +1,4 @@
+# Maven
 target/
 dependency-reduced-pom.xml
 
@@ -14,10 +15,3 @@ dependency-reduced-pom.xml
 # Mac
 .DS_Store
 
-# Maven
-log/
-target/
-
-spark-warehouse
-*_data
-*.log

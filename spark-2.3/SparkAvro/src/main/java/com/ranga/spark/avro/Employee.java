@@ -1,4 +1,5 @@
-package com.ranga.spark.avro;/* rangareddy.avula created on 11/06/20 */
+package com.ranga.spark.avro;
+/* rangareddy.avula created on 11/06/20 */
 
 import java.io.Serializable;
 

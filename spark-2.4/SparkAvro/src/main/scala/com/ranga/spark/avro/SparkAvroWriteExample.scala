@@ -1,3 +1,5 @@
+package com.ranga.spark.avro
+
 import com.ranga.spark.avro.bean.Employee
 import org.apache.spark.SparkConf
 import org.apache.spark.sql.SparkSession;

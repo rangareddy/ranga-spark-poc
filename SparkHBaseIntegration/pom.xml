@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ranga.spark.hbase</groupId>
-    <artifactId>SparkHBaseIntegration</artifactId>
+    <artifactId>spark-hase-integration</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
     <!-- root project properties -->
@@ -39,16 +39,16 @@
         <hbase.scope>provided</hbase.scope>
         <shc.version>1.1.1-2.1-s_2.11</shc.version>
         <shc.scope>compile</shc.scope>
-        <hbase.spark.version>2.0.2.3.1.0.6-1</hbase.spark.version>
+        <hbase.spark.version>1.0.0</hbase.spark.version>
     </properties>
 
     <dependencies>
-
         <!-- spark -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
+            <scope>${spark.scope}</scope>
             <exclusions>
                 <exclusion>
                     <groupId>io.netty</groupId>
@@ -81,6 +81,12 @@
             <artifactId>hbase-client</artifactId>
             <version>${hbase.version}</version>
             <scope>${hbase.scope}</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- shc core -->
@@ -93,7 +99,7 @@
 
         <!-- hbase-spark -->
         <dependency>
-            <groupId>org.apache.hbase</groupId>
+            <groupId>org.apache.hbase.connectors.spark</groupId>
             <artifactId>hbase-spark</artifactId>
             <version>${hbase.spark.version}</version>
         </dependency>
@@ -102,7 +108,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.18.Final</version>
+            <version>4.1.42.Final</version>
         </dependency>
 
         <!-- junit -->
@@ -116,7 +122,7 @@
         <dependency>
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest_${scala.binary.version}</artifactId>
-            <version>3.0.5</version>
+            <version>3.1.4</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -180,6 +186,9 @@
                     <scalaVersion>${scala.version}</scalaVersion>
                     <scalaCompatVersion>${scala.binary.version}</scalaCompatVersion>
                     <charset>${project.build.sourceEncoding}</charset>
+                    <args>
+                        <arg>-target:jvm-1.8</arg>
+                    </args>
                 </configuration>
             </plugin>
 
@@ -200,7 +209,7 @@
                                 <!-- add Main-Class to manifest file -->
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.kumar.SparkHBaseIntegration</mainClass>
+                                    <mainClass>com.ranga.spark.hbase.SparkHBaseIntegrationApp</mainClass>
                                 </transformer>
                             </transformers>
 
@@ -222,5 +231,13 @@
 
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>scala-tools.org</id>
+            <name>Scala-Tools Maven2 Repository</name>
+            <url>http://scala-tools.org/repo-releases</url>
+        </repository>
+    </repositories>
 
 </project>

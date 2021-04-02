@@ -16,4 +16,39 @@
     <packaging>pom</packaging>
     <name>Spark 3.0 Apps Parent POM</name>
 
+    <properties>
+        <!-- Spark & Scala Version> -->
+        <spark.version>${spark_3_version}</spark.version>
+        <scala.version>${scala-version}</scala.version>
+        <scala.binary.version>${scala-binary-version}</scala.binary.version>
+    </properties>
+
+    <modules>
+        <module>SparkAvro</module>
+    </modules>
+
+    <dependencies>
+
+            <dependency>
+                <groupId>org.apache.spark</groupId>
+                <artifactId>spark-sql_${scala.binary.version}</artifactId>
+                <version>${spark.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.spark</groupId>
+                <artifactId>spark-streaming_${scala.binary.version}</artifactId>
+                <version>${spark.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.spark</groupId>
+                <artifactId>spark-sql-kafka-0-10_${scala.binary.version}</artifactId>
+                <version>${spark.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+    </dependencies>
 </project>

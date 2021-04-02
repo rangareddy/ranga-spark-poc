@@ -46,6 +46,27 @@
 
     </properties>
 
+    <repositories>
+        
+        <repository>
+          <id>mavencentral</id>
+          <name>Maven Central</name>
+          <url>http://repo.maven.apache.org/maven2/</url>
+        </repository>
+
+        <repository>
+          <id>cloudera</id>
+          <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
+        </repository>
+
+        <repository>
+            <id>HDPPublic</id>
+            <name>HDP Public</name>
+            <url>http://repo.hortonworks.com/content/repositories/public/</url>
+        </repository>
+        
+  </repositories>
+
     <modules>
         <module>spark-1.6</module>
         <module>spark-2.3</module>

@@ -27,6 +27,7 @@
         <module>SparkAvro</module>
         <module>SparkRDDOperations</module>
         <module>SparkWordCount</module>
+        <module>SparkKafkaStructuredStreaming</module>
     </modules>
 
     <dependencies>

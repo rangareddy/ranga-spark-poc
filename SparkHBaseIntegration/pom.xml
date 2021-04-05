@@ -32,7 +32,7 @@
         <junit.version>4.13.1</junit.version>
         <slf4j.version>1.7.21</slf4j.version>
 
-        <spark.version>2.3.2.3.1.5.0-152</spark.version>
+        <spark.version>2.4.7</spark.version>
         <spark.scope>provided</spark.scope>
 
         <hbase.version>2.1.6.3.1.5.0-152</hbase.version>

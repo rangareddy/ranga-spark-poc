@@ -1,5 +1,7 @@
 # Spark HBase Integration
 
+## HDP - Spark HBase Integration
+
 ### Launch HBase Shell and create Employee table
 ```
 # hbase shell
@@ -7,7 +9,6 @@
 ```
 
 ### Launch the Spark Shell
-
 ```sh
 spark-shell --master yarn --executor-cores 5 --deploy-mode client \
 --jars /usr/hdp/current/hbase-client/lib/hbase-client.jar,\
@@ -32,7 +33,6 @@ spark-shell --master yarn --executor-cores 5 --deploy-mode client \
 ```
 
 ### Execute the following code
-
 ```scala
 import org.apache.hadoop.hbase.spark.HBaseContext
 import org.apache.hadoop.hbase.HBaseConfiguration

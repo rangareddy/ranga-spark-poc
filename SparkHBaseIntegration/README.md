@@ -39,6 +39,14 @@ sudo -u spark spark-submit --verbose \
 $HOME/spark-hbase/shc-examples-1.1.2-2.3-s_2.11-SNAPSHOT.jar
 ```
 
+### Launch HBase Shell and create Employee table
+```
+# hbase shell
+# create 'employees', 'e'
+```
+
+### Launch the Spark Shell
+
 ```sh
 spark-shell --master yarn --executor-cores 5 --deploy-mode client \
 --jars /usr/hdp/current/hbase-client/lib/hbase-client.jar,\
@@ -61,6 +69,8 @@ spark-shell --master yarn --executor-cores 5 --deploy-mode client \
 /usr/hdp/current/hbase-client/lib/phoenix-server.jar \
 --files /etc/hbase/conf/hbase-site.xml
 ```
+
+### Execute the following code
 
 ```scala
 import org.apache.hadoop.hbase.spark.HBaseContext

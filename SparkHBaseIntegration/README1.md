@@ -1,5 +1,44 @@
 # Spark HBase Integration
 
+## Create the directory in edge node
+```sh
+mkdir -p /usr/apps/spark/spark-hbase
+cd /usr/apps/spark/spark-hbase
+```
+
+## Build the project
+```sh
+mvn clean package -DskipTests
+```
+
+## Copy the jar and run script to edge node
+```sh
+
+scp target/spark-hase-integration-1.0.0-SNAPSHOT.jar username@host:/usr/apps/spark/spark-hbase
+scp run_spark_hbase_integration.sh username@host:/usr/apps/spark/spark-hbase
+```
+
+## Run the shell script from edge node 
+```sh
+cd /usr/apps/spark/spark-hbase
+sh run_spark_hbase_integration.sh
+```
+
+```sh
+mkdir -p $HOME/spark-hbase && cd $HOME/spark-hbase && git clone https://github.com/hortonworks-spark/shc.git && cd shc
+git checkout origin/branch-2.3 -b shc_core_2.3
+mvn -T 4 clean package -DskipTests
+cp $HOME/spark-hbase/shc/core/target/shc-core-1.1.2-2.3-s_2.11-SNAPSHOT.jar /tmp
+cp $HOME/spark-hbase/shcexamples/target/shc-examples-1.1.2-2.3-s_2.11-SNAPSHOT.jar /tmp
+
+sudo -u spark spark-submit --verbose \
+--class org.apache.spark.sql.execution.datasources.hbase.examples.HBaseSource \
+--master yarn --deploy-mode client \
+--jars $HOME/spark-hbase/shc-core-1.1.2-2.3-s_2.11-SNAPSHOT.jar \
+--files /usr/hdp/current/hbase-client/conf/hbase-site.xml \
+$HOME/spark-hbase/shc-examples-1.1.2-2.3-s_2.11-SNAPSHOT.jar
+```
+
 ### Launch HBase Shell and create Employee table
 ```
 # hbase shell

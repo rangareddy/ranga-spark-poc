@@ -42,6 +42,7 @@ val conf = HBaseConfiguration.create()
 conf.addResource(new Path("/etc/hbase/conf/hbase-site.xml"))
 new HBaseContext(sc, conf)
 
+// creating the employee dataset
 case class Employee(id:Long, name: String, age: Integer, salary: Float)
 
 var employeeDS = Seq(
@@ -54,8 +55,10 @@ val columnMapping = "id Long :key, name STRING e:name, age Integer e:age, salary
 val format = "org.apache.hadoop.hbase.spark"
 val tableName = "employees"
 
+// writting the data to hbase table
 employeeDS.write.format(format).option("hbase.columns.mapping",columnMapping).option("hbase.table", tableName).save()
- 
+
+// reading the data from hbase table
 val df = spark.read.format(format).option("hbase.columns.mapping", columnMapping).option("hbase.table", tableName).load()
 df.show(truncate=false)
 ```

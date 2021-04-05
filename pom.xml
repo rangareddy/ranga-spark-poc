@@ -42,7 +42,7 @@
         <scala.binary11.version>2.11</scala.binary11.version>
         <scala.binary12.version>2.12</scala.binary12.version>
         <scala-binary-version>${scala.binary12.version}</scala-binary-version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
 
     </properties>
 
